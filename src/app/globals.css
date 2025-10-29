@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Smooth reveal utility */
+.reveal {
+  @apply opacity-0 translate-y-4 transition-all duration-700 ease-out;
+}
+.reveal.in-view {
+  @apply opacity-100 translate-y-0;
+}
+
