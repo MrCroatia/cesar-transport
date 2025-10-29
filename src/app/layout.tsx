@@ -26,9 +26,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           <ThemeToggle />
         </div>
-        {children}
-        {/* Sticky decorative blue glow (center-right) */}
-        <div className="pointer-events-none fixed -right-20 top-1/2 -translate-y-1/2 opacity-20 blur-2xl z-20" aria-hidden="true">
+        <div className="relative z-10">{children}</div>
+        {/* Sticky decorative blue glow (center-right, behind content) */}
+        <div className="pointer-events-none fixed -right-20 top-1/2 -translate-y-1/2 opacity-20 blur-2xl z-0" aria-hidden="true">
           <div className="h-72 w-72 sm:h-96 sm:w-96 rounded-full bg-brand-primary"></div>
         </div>
         <div

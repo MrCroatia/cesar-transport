@@ -1,7 +1,7 @@
 "use client";
 
 import Image from 'next/image';
-import { useEffect } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 function useRevealOnScroll() {
   useEffect(() => {
@@ -20,8 +20,76 @@ function useRevealOnScroll() {
   }, []);
 }
 
+function OpacityCarousel({ images }: { images: string[] }) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const itemElsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const [opacities, setOpacities] = useState<number[]>(() => images.map(() => 1));
+
+  useEffect(() => {
+    const update = () => {
+      const container = containerRef.current;
+      if (!container) return;
+      const containerRect = container.getBoundingClientRect();
+      const containerCenter = containerRect.left + containerRect.width / 2;
+      const next = images.map((_, i) => {
+        const el = itemElsRef.current[i];
+        if (!el) return 0.6;
+        const rect = el.getBoundingClientRect();
+        const slideCenter = rect.left + rect.width / 2;
+        const distance = Math.abs(slideCenter - containerCenter);
+        const max = containerRect.width * 0.6; // distance where opacity bottoms out
+        const t = Math.min(distance / max, 1);
+        return 1 - t * 0.5; // 1 -> 0.5
+      });
+      setOpacities(next);
+    };
+
+    update();
+    const container = containerRef.current;
+    if (!container) return;
+    const onScroll = () => update();
+    const onResize = () => update();
+    container.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onResize, { passive: true });
+    return () => {
+      container.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onResize);
+    };
+  }, [images]);
+
+  return (
+    <div
+      ref={containerRef}
+      className="reveal relative -mx-4 sm:mx-0 overflow-x-auto overflow-y-visible scroll-smooth snap-x snap-mandatory flex gap-6 px-4 sm:px-0"
+      aria-roledescription="carousel"
+    >
+      {images.map((src, idx) => (
+        <div
+          key={idx}
+          ref={(el: HTMLDivElement | null) => {
+            itemElsRef.current[idx] = el;
+          }}
+          className="relative snap-center shrink-0 w-[85%] sm:w-[55%] lg:w-[40%] aspect-[4/3] rounded-2xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm transition-opacity duration-300"
+          style={{ opacity: opacities[idx] ?? 1 }}
+        >
+          <Image
+            src={src}
+            alt={`Galerija slika ${idx + 1}`}
+            fill
+            className="object-cover rounded-2xl"
+            sizes="(max-width: 640px) 85vw, (max-width: 1024px) 55vw, 40vw"
+            priority={idx === 0}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function HomePage() {
   useRevealOnScroll();
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState<null | 'ok' | 'err'>(null);
 
   return (
     <main>
@@ -34,7 +102,7 @@ export default function HomePage() {
               <span className="text-sm uppercase tracking-widest text-slate-500">Cesar Transport</span>
             </div>
             <h1 className="text-4xl sm:text-6xl font-extrabold leading-tight">
-              Pouzdana dostava i prijevoz za poduzeća(B2B) i pojedince širom Hrvatske i EU.
+              Pouzdan B2B i privatni prijevoz u Hrvatskoj i EU
             </h1>
             <p className="mt-6 text-lg text-slate-600">
               Vaša roba. Na vrijeme. Bez stresa.
@@ -119,12 +187,12 @@ export default function HomePage() {
             </ul>
           </div>
           <div className="reveal order-1 lg:order-2">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm">
+            <div className="relative aspect-square sm:aspect-[4/3] overflow-hidden rounded-2xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm">
               <Image
-                src="/van.jpg"
-                alt="Cesar Transport kombi"
+                src="/logo.png"
+                alt="Cesar Transport logo"
                 fill
-                className="object-cover"
+                className="object-contain p-8 sm:p-10"
                 sizes="(max-width: 768px) 100vw, 50vw"
                 priority
               />
@@ -133,18 +201,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Gallery */}
+      {/* Gallery - Opacity Carousel */}
       <section id="gallery" className="container py-20 sm:py-28">
         <div className="reveal">
           <h2 className="text-3xl sm:text-4xl font-bold">Galerija</h2>
           <p className="mt-2 text-slate-600 dark:text-neutral-300">Pogledajte naš kombi u akciji.</p>
         </div>
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {Array.from({ length: 2 }).map((_, i) => (
-            <div key={i} className="reveal relative aspect-[4/3] overflow-hidden rounded-2xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm">
-              <Image src="/van.jpg" alt="Kombi" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
-            </div>
-          ))}
+        <div className="mt-8">
+          <OpacityCarousel images={["/van.jpg", "/van.jpg", "/van.jpg", "/van.jpg"]} />
         </div>
       </section>
 
@@ -155,16 +219,41 @@ export default function HomePage() {
             <h2 className="text-3xl sm:text-4xl font-bold">Kontakt</h2>
             <p className="mt-2 text-slate-600 dark:text-neutral-300">Pošaljite upit i javit ćemo se uskoro.</p>
             <div className="mt-6 space-y-2 text-slate-700">
-              <p>Telefon: <a className="text-brand-primary hover:underline" href="tel:+385912345678">+385 91 234 5678</a></p>
-              <p>Email: <a className="text-brand-primary hover:underline" href="mailto:info@cesar-transport.hr">info@cesar-transport.hr</a></p>
+              <p>Telefon: <a className="text-brand-primary hover:underline" href="tel:+385992087142">+385 99 208 7142</a></p>
+              <p>Email: <a className="text-brand-primary hover:underline" href="mailto:cesartransport.hr@gmail.com">cesartransport.hr@gmail.com</a></p>
             </div>
           </div>
 
           <form
             className="reveal rounded-2xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6 shadow-sm"
-            action="mailto:info@cesar-transport.hr"
-            method="post"
-            encType="text/plain"
+            onSubmit={async (e) => {
+              e.preventDefault();
+              if (sending) return;
+              setSent(null);
+              setSending(true);
+              const form = e.currentTarget as HTMLFormElement;
+              const data = new FormData(form);
+              const name = (data.get('Ime') || '').toString();
+              const email = (data.get('Email') || '').toString();
+              const message = (data.get('Poruka') || '').toString();
+              try {
+                const res = await fetch('/api/contact', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ name, email, message }),
+                });
+                if (res.ok) {
+                  setSent('ok');
+                  form.reset();
+                } else {
+                  setSent('err');
+                }
+              } catch {
+                setSent('err');
+              } finally {
+                setSending(false);
+              }
+            }}
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
@@ -180,10 +269,19 @@ export default function HomePage() {
                 <textarea name="Poruka" rows={4} required className="mt-1 w-full rounded-md bg-white dark:bg-neutral-900 border border-slate-300 dark:border-neutral-700 text-slate-900 dark:text-neutral-100 placeholder-slate-400 dark:placeholder-neutral-500 px-3 py-2 outline-none focus:ring-2 focus:ring-brand-primary/60" />
               </div>
             </div>
-            <button type="submit" className="mt-4 inline-flex items-center justify-center rounded-md bg-brand-primary px-6 py-3 text-white font-semibold transition-transform hover:scale-[1.02]">
-              Pošalji email
+            <button
+              type="submit"
+              disabled={sending}
+              className="mt-4 inline-flex items-center justify-center rounded-md bg-brand-primary px-6 py-3 text-white font-semibold transition-transform hover:scale-[1.02] disabled:opacity-60"
+            >
+              {sending ? 'Šaljem…' : 'Pošalji upit'}
             </button>
-            <p className="mt-2 text-xs text-slate-500 dark:text-neutral-400">Slanje otvara vaš email klijent (bez backend-a).</p>
+            {sent === 'ok' && (
+              <p className="mt-2 text-sm text-green-600 dark:text-green-400">Poruka je poslana. Hvala!</p>
+            )}
+            {sent === 'err' && (
+              <p className="mt-2 text-sm text-red-600">Slanje nije uspjelo. Pokušajte ponovno.</p>
+            )}
           </form>
         </div>
       </section>
