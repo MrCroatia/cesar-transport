@@ -22,7 +22,7 @@ export default function InteractiveGallery() {
   // Make the carousel responsive to screen size
   useEffect(() => {
     const updatePanelSize = () => {
-      const newSize = window.innerWidth < 768 ? 200 : 320;
+      const newSize = window.innerWidth < 768 ? 200 : 400;
       setPanelSize(newSize);
     };
     updatePanelSize();
@@ -35,8 +35,9 @@ export default function InteractiveGallery() {
   // Calculate the geometry of the carousel
   const { theta, translateZ } = useMemo(() => {
     const angle = 360 / cellCount;
+    // A larger radius pushes the side images further away, making them appear smaller and more peripheral.
     const radius = Math.round((panelSize / 2) / Math.tan(Math.PI / cellCount));
-    return { theta: angle, translateZ: radius };
+    return { theta: angle, translateZ: radius * 1.4 };
   }, [cellCount, panelSize]);
 
   // Determine the rotation of the entire carousel based on the selected image
@@ -73,15 +74,17 @@ export default function InteractiveGallery() {
 
   return (
     <div className="w-full flex flex-col items-center">
-      {/* This container sets up the 3D perspective and interaction */}
-      <div 
-        ref={carouselRef}
-        className="relative cursor-grab active:cursor-grabbing"
-        style={{ 
-          width: `${panelSize}px`, 
-          height: `${panelSize * 0.75}px`, 
-          perspective: '1000px',
-        }}
+      {/* This new 'scene' container prevents overflow and the resulting zoom */}
+      <div className="relative w-full overflow-hidden" style={{ height: `${panelSize * 0.8}px` }}>
+        {/* This container sets up the 3D perspective and interaction */}
+        <div 
+          ref={carouselRef}
+          className="absolute top-0 left-1/2 -translate-x-1/2 cursor-grab active:cursor-grabbing"
+          style={{ 
+            width: `${panelSize}px`, 
+            height: `${panelSize * 0.75}px`, 
+            perspective: '1000px',
+          }}
         onMouseDown={handleDragStart}
         onTouchStart={handleDragStart}
         onMouseUp={handleDragEnd}
@@ -106,12 +109,13 @@ export default function InteractiveGallery() {
                 style={{
                   width: `${panelSize}px`,
                   height: `${panelSize * 0.75}px`,
-                  // Positions each panel in a circle
-                  transform: `rotateY(${index * theta}deg) translateZ(${translateZ}px)`,
+                  // Positions each panel in a circle and scales the selected one
+                  transform: `rotateY(${index * theta}deg) translateZ(${translateZ}px) ${isSelected ? 'scale(1.2)' : 'scale(1)'}`,
                   backfaceVisibility: 'hidden',
-                  // Makes the side panels semi-transparent
-                  opacity: isSelected ? 1 : 0.6,
-                  transition: 'opacity 0.75s ease',
+                  // Makes the side panels much more transparent
+                  opacity: isSelected ? 1 : 0.2,
+                  transition: 'transform 0.75s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.75s ease',
+                  zIndex: isSelected ? 1 : 0,
                 }}
               >
                 <Image 
@@ -124,6 +128,7 @@ export default function InteractiveGallery() {
               </div>
             );
           })}
+        </div>
         </div>
       </div>
       {/* Desktop Arrow Navigation */}

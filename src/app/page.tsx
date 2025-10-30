@@ -155,7 +155,7 @@ export default function HomePage() {
         <div className="grid md:grid-cols-2 gap-10 items-start">
           <div className="reveal">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-shadow-custom" style={{ color: 'var(--text-primary)' }}>Kontakt</h2>
-          <p className="mt-2 text-lg lg:text-xl text-shadow-custom" style={{ color: 'var(--text-secondary)' }}>Pošaljite upit i javit ćemo se uskoro.</p>
+          <p className="mt-2 text-lg lg:text-xl text-shadow-custom" style={{ color: 'var(--text-secondary)' }}>Pošaljite upit i javiti ćemo Vam se sa informativnom ponudom!</p>
           <div className="mt-6 space-y-2 text-lg lg:text-xl" style={{ color: 'var(--text-secondary)' }}>
             <p>Telefon: <a className="text-brand-primary hover:underline" href="tel:+385992087142">+385 99 208 7142</a></p>
             <p>Email: <a className="text-brand-primary hover:underline" href="mailto:cesartransport.hr@gmail.com">cesartransport.hr@gmail.com</a></p>
@@ -241,10 +241,10 @@ export default function HomePage() {
             <details key={idx} className="reveal group rounded-xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 shadow-sm">
               <summary className="cursor-pointer select-none text-lg lg:text-xl font-medium list-none flex items-center justify-between" style={{ color: 'var(--text-primary)' }}>
                 {item.q}
-                <span className="ml-4 text-slate-400 dark:text-neutral-500 group-open:rotate-45 transition-transform duration-300 ease-in-out">+</span>
+                <span className="ml-4 text-slate-400 dark:text-neutral-500 transform transition-transform duration-300 ease-in-out group-open:rotate-45">+</span>
               </summary>
-              <div className="overflow-hidden transition-all duration-700 ease-in-out max-h-0 group-open:max-h-48">
-                <p className="pt-2 lg:text-lg opacity-0 transition-opacity duration-500 ease-in-out group-open:opacity-100" style={{ color: 'var(--text-secondary)' }}>{item.a}</p>
+              <div>
+                <p className="pt-4 pb-2 lg:text-lg" style={{ color: 'var(--text-secondary)' }}>{item.a}</p>
               </div>
             </details>
           ))}
@@ -255,17 +255,29 @@ export default function HomePage() {
       <footer className="border-t border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-950">
         <div className="container py-8 flex flex-col sm:flex-row gap-4 items-center justify-between">
           <div className="flex items-center gap-3">
-            <Image src="/logo.svg" alt="Cesar Transport logo" width={36} height={36} />
+            <Image src="/logo.svg" alt="Cesar Transport logo" width={108} height={108} />
             <span className="text-slate-600 dark:text-neutral-400">© {new Date().getFullYear()} Cesar Transport</span>
           </div>
-          <nav className="flex gap-5 text-slate-600 dark:text-neutral-400">
-            <a href="#home" className="hover:text-slate-900 dark:hover:text-neutral-200">Početna</a>
-            <a href="#services" className="hover:text-slate-900 dark:hover:text-neutral-200">Usluge</a>
-            <a href="#about" className="hover:text-slate-900 dark:hover:text-neutral-200">O nama</a>
-            <a href="#gallery" className="hover:text-slate-900 dark:hover:text-neutral-200">Galerija</a>
-            <a href="#contact" className="hover:text-slate-900 dark:hover:text-neutral-200">Kontakt</a>
-            <a href="#faq" className="hover:text-slate-900 dark:hover:text-neutral-200">FAQ</a>
-          </nav>
+          <div className="marquee-container sm:w-1/2">
+            <div className="marquee-content">
+              <nav className="marquee-links text-slate-600 dark:text-neutral-400">
+                <a href="#home" className="hover:text-slate-900 dark:hover:text-neutral-200 px-4">Početna</a>
+                <a href="#services" className="hover:text-slate-900 dark:hover:text-neutral-200 px-4">Usluge</a>
+                <a href="#about" className="hover:text-slate-900 dark:hover:text-neutral-200 px-4">O nama</a>
+                <a href="#gallery" className="hover:text-slate-900 dark:hover:text-neutral-200 px-4">Galerija</a>
+                <a href="#contact" className="hover:text-slate-900 dark:hover:text-neutral-200 px-4">Kontakt</a>
+                <a href="#faq" className="hover:text-slate-900 dark:hover:text-neutral-200 px-4">FAQ</a>
+              </nav>
+              <nav className="marquee-links text-slate-600 dark:text-neutral-400" aria-hidden="true">
+                <a href="#home" className="hover:text-slate-900 dark:hover:text-neutral-200 px-4">Početna</a>
+                <a href="#services" className="hover:text-slate-900 dark:hover:text-neutral-200 px-4">Usluge</a>
+                <a href="#about" className="hover:text-slate-900 dark:hover:text-neutral-200 px-4">O nama</a>
+                <a href="#gallery" className="hover:text-slate-900 dark:hover:text-neutral-200 px-4">Galerija</a>
+                <a href="#contact" className="hover:text-slate-900 dark:hover:text-neutral-200 px-4">Kontakt</a>
+                <a href="#faq" className="hover:text-slate-900 dark:hover:text-neutral-200 px-4">FAQ</a>
+              </nav>
+            </div>
+          </div>
         </div>
       </footer>
     </main>
