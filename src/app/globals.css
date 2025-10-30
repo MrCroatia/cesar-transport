@@ -35,6 +35,15 @@
   .dark .text-shadow-custom {
     text-shadow: 0px 1px 3px rgba(0,0,0,0.5);
   }
+  .img-glow {
+    /* Corresponds to brand.primary #0A5ED7 */
+    filter: drop-shadow(0 0 8px rgba(10, 94, 215, 0.6));
+    will-change: filter;
+    transition: filter 0.3s ease-in-out;
+  }
+  .dark .img-glow {
+    filter: drop-shadow(0 0 12px rgba(10, 94, 215, 0.7));
+  }
 }
 
 html {

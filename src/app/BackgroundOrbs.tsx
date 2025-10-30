@@ -2,9 +2,12 @@
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 
-const ORB_COUNT = 6;
-// Adding more colors for the increased orb count.
-const ORB_COLORS = ['#0A5ED7', '#4C8DF2', '#E11937', '#2E72D7', '#F57D8F', '#7FAEF2']; 
+const ORB_COUNT = 11;
+// Expanding the color palette for 11 orbs to ensure variety.
+const ORB_COLORS = [
+  '#0A5ED7', '#4C8DF2', '#E11937', '#2E72D7', '#F57D8F', '#7FAEF2',
+  '#0A5ED7', '#4C8DF2', '#E11937', '#2E72D7', '#7FAEF2'
+]; 
 // Drastically increased base speed for a very noticeable effect.
 const MIN_SPEED = 0.15; 
 const MAX_SPEED_MULTIPLIER = 15;

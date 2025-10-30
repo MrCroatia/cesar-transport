@@ -1,17 +1,44 @@
 "use client";
 
-import Image from 'next/image';
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectCoverflow, Pagination, Navigation, Thumbs, FreeMode } from 'swiper/modules';
+import type { Swiper as SwiperCore } from 'swiper';
+import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
+
+// Import Swiper styles
 import 'swiper/css';
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/pagination';
+import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
-import 'swiper/css/free-mode';
+
+// Custom styles for the gallery to ensure a sleek look
+const galleryStyles = `
+.mySwiper .swiper-slide {
+  opacity: 0.6;
+  transition: opacity 0.3s ease-in-out;
+}
+.mySwiper .swiper-slide-thumb-active {
+  opacity: 1;
+}
+.mySwiper .swiper-wrapper {
+  padding-top: 10px; /* Space for the active thumb to pop */
+}
+.mainSwiper .swiper-button-next, .mainSwiper .swiper-button-prev {
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+}
+.mainSwiper .swiper-button-next:after, .mainSwiper .swiper-button-prev:after {
+  font-size: 20px;
+  font-weight: bold;
+}
+`;
 
 const images = [
+  "/van.jpg",
   "/van.jpg",
   "/van.jpg",
   "/van.jpg",
@@ -20,79 +47,60 @@ const images = [
 ];
 
 export default function InteractiveGallery() {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
-
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
+  const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore | null>(null);
 
   return (
     <>
+      <style>{galleryStyles}</style>
+      {/* Main Swiper */}
       <Swiper
         loop={true}
         spaceBetween={10}
         navigation={true}
-        thumbs={{ swiper: thumbsSwiper }}
+        thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
         modules={[FreeMode, Navigation, Thumbs]}
-        className="w-full h-[400px] cursor-pointer"
-        onClick={openModal}
+        className="mainSwiper h-64 md:h-96 w-full rounded-lg shadow-lg"
       >
         {images.map((src, index) => (
-          <SwiperSlide key={index} className="flex justify-center items-center">
-            <Image 
-              src={src} 
-              alt={`Gallery image ${index + 1}`} 
-              width={500}
-              height={300}
-              className="block w-auto h-auto max-h-full max-w-full"
-            />
+          <SwiperSlide key={index}>
+            <div className="relative w-full h-full">
+              <Image
+                src={src}
+                alt={`Galerija slika ${index + 1}`}
+                layout="fill"
+                objectFit="cover"
+                className="rounded-lg"
+              />
+            </div>
           </SwiperSlide>
         ))}
       </Swiper>
 
-      {modalOpen && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-80 z-50 flex justify-center items-center"
-          onClick={closeModal}
-        >
-          <div className="w-full h-full" onClick={(e) => e.stopPropagation()}>
-            <Swiper
-              effect={'coverflow'}
-              grabCursor={true}
-              centeredSlides={true}
-              loop={true}
-              slidesPerView={'auto'}
-              coverflowEffect={{
-                rotate: 50,
-                stretch: 0,
-                depth: 100,
-                modifier: 1,
-                slideShadows: true,
-              }}
-              pagination={{
-                clickable: true,
-              }}
-              navigation={true}
-              modules={[EffectCoverflow, Pagination, Navigation]}
-              className="w-full h-full"
-            >
-              {images.map((src, index) => (
-                <SwiperSlide 
-                  key={index} 
-                  className="w-[50vw] h-[50vh] bg-center bg-cover self-center"
-                >
-                  <Image 
-                    src={src} 
-                    alt={`Gallery image ${index + 1}`} 
-                    layout="fill" 
-                    objectFit="contain" 
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        </div>
-      )}
+      {/* Thumbnail Swiper */}
+      <Swiper
+        onSwiper={setThumbsSwiper}
+        loop={true}
+        spaceBetween={10}
+        slidesPerView={4}
+        freeMode={true}
+        watchSlidesProgress={true}
+        modules={[FreeMode, Navigation, Thumbs]}
+        className="mySwiper mt-4 h-20 md:h-28 w-full"
+      >
+        {images.map((src, index) => (
+          <SwiperSlide key={index} className="cursor-pointer">
+             <div className="relative w-full h-full">
+              <Image
+                src={src}
+                alt={`Thumbnail ${index + 1}`}
+                layout="fill"
+                objectFit="cover"
+                className="rounded-md"
+              />
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </>
   );
 }

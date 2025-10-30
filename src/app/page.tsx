@@ -31,24 +31,24 @@ export default function HomePage() {
     <main>
       {/* Hero */}
       <section id="home" className="relative">
-        <div className="container pt-32 pb-24 sm:pt-48 sm:pb-32">
+        <div className="container pt-32 pb-12 sm:pt-48 sm:pb-32">
           <div className="max-w-2xl reveal">
-            <h1 className="text-4xl sm:text-6xl font-extrabold leading-tight text-shadow-custom" style={{ color: 'var(--text-primary)' }}>
+            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-extrabold leading-tight text-shadow-custom" style={{ color: 'var(--text-primary)' }}>
               Pouzdan B2B i privatni prijevoz u Hrvatskoj i EU
             </h1>
-            <p className="mt-6 text-lg text-shadow-custom" style={{ color: 'var(--text-secondary)' }}>
+            <p className="mt-6 text-lg lg:text-xl text-shadow-custom" style={{ color: 'var(--text-secondary)' }}>
               Vaša roba. Na vrijeme. Bez stresa.
             </p>
             <div className="mt-10 flex flex-col sm:flex-row gap-3">
               <a
                 href="#contact"
-                className="inline-flex items-center justify-center rounded-md bg-brand-primary px-6 py-3 text-white font-semibold transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/60"
+                className="inline-flex items-center justify-center rounded-md bg-brand-primary px-6 py-3 lg:px-8 lg:py-4 text-white font-semibold transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/60"
               >
                 Zatraži ponudu
               </a>
               <a
                 href="#services"
-                className="inline-flex items-center justify-center rounded-md border border-slate-300 px-6 py-3 text-slate-800 transition-colors hover:bg-slate-50"
+                className="inline-flex items-center justify-center rounded-md border border-slate-300 px-6 py-3 lg:px-8 lg:py-4 text-slate-800 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
               >
                 Usluge
               </a>
@@ -61,8 +61,8 @@ export default function HomePage() {
       {/* Services */}
       <section id="services" className="container pt-20 pb-6 sm:py-28">
         <div className="reveal">
-          <h2 className="text-3xl sm:text-4xl font-bold text-shadow-custom" style={{ color: 'var(--text-primary)' }}>Usluge</h2>
-          <p className="mt-2 max-w-2xl text-shadow-custom" style={{ color: 'var(--text-secondary)' }}>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-shadow-custom" style={{ color: 'var(--text-primary)' }}>Usluge</h2>
+          <p className="mt-2 max-w-2xl text-lg lg:text-xl text-shadow-custom" style={{ color: 'var(--text-secondary)' }}>
             Specijalizirani za redoviti i fleksibilni prijevoz za privatne i B2B klijente.
           </p>
         </div>
@@ -96,8 +96,8 @@ export default function HomePage() {
             <div key={item.title} className="reveal relative">
               <div className="pointer-events-none absolute -inset-2 rounded-2xl bg-brand-primary/20 blur-2xl"></div>
               <div className="relative rounded-xl border border-brand-primary/30 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6 shadow-md shadow-brand-primary/20 hover:shadow-lg hover:shadow-brand-primary/40 ring-1 ring-brand-primary/10 hover:ring-brand-primary/20 transition-shadow">
-                <h3 className="text-xl font-semibold" style={{ color: 'var(--text-primary)' }}>{item.title}</h3>
-                <p className="mt-2" style={{ color: 'var(--text-secondary)' }}>{item.desc}</p>
+                <h3 className="text-xl lg:text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{item.title}</h3>
+                <p className="mt-2 lg:text-lg" style={{ color: 'var(--text-secondary)' }}>{item.desc}</p>
               </div>
             </div>
           ))}
@@ -108,23 +108,31 @@ export default function HomePage() {
       <section id="about" className="container pt-4 sm:py-16">
         <div className="grid lg:grid-cols-2 gap-10 items-center">
           <div className="reveal order-2 lg:order-1">
-            <h2 className="text-3xl sm:text-4xl font-bold text-shadow-custom" style={{ color: 'var(--text-primary)' }}>O nama</h2>
-            <p className="mt-4 text-shadow-custom" style={{ color: 'var(--text-secondary)' }}>
-              Cesar transport je pouzdani partner za kombi prijevoz robe diljem Hrvatske i Europe. Specijalizirani smo za smo za B2B suradnje, ali jednako pažljivo pristupamo i privatnim klijentima. Naša misija je pružiti brzu, sigurnu i točnu dostavu.
-            </p>
-            <ul className="mt-6 space-y-2 text-shadow-custom" style={{ color: 'var(--text-secondary)' }}>
-              <li>• Hrvatska pokrivenost i fleksibilni termini</li>
-              <li>• Uredna vozila i profesionalni vozači</li>
-              <li>• Transparentna komunikacija i cijene</li>
-            </ul>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-shadow-custom" style={{ color: 'var(--text-primary)' }}>O nama</h2>
+          <p className="mt-4 text-lg lg:text-xl text-shadow-custom" style={{ color: 'var(--text-secondary)' }}>
+            Cesar transport je pouzdani partner za kombi prijevoz robe diljem Hrvatske i Europe. Specijalizirani smo za smo za B2B suradnje, ali jednako pažljivo pristupamo i privatnim klijentima. Naša misija je pružiti brzu, sigurnu i točnu dostavu.
+          </p>
+          <ul className="mt-6 space-y-2 text-lg lg:text-xl text-shadow-custom" style={{ color: 'var(--text-secondary)' }}>
+            <li>• Hrvatska pokrivenost i fleksibilni termini</li>
+            <li>• Uredna vozila i profesionalni vozači</li>
+            <li>• Transparentna komunikacija i cijene</li>
+          </ul>
           </div>
           <div className="reveal order-1 lg:order-2 flex justify-center items-center">
             <Image
               src="/logo.svg"
               alt="Cesar Transport logo"
-              width={500}
-              height={500}
-              className="w-full max-w-xs sm:max-w-sm lg:max-w-md object-contain"
+              width={700}
+              height={700}
+              className="block dark:hidden w-full max-w-sm sm:max-w-md lg:max-w-xl object-contain img-glow"
+              priority
+            />
+            <Image
+              src="/logolight.svg"
+              alt="Cesar Transport logo"
+              width={700}
+              height={700}
+              className="hidden dark:block w-full max-w-sm sm:max-w-md lg:max-w-xl object-contain img-glow"
               priority
             />
           </div>
@@ -134,8 +142,8 @@ export default function HomePage() {
       {/* Gallery - Interactive Carousel */}
       <section id="gallery" className="container py-20 sm:py-28">
         <div className="reveal">
-          <h2 className="text-3xl sm:text-4xl font-bold text-shadow-custom" style={{ color: 'var(--text-primary)' }}>Galerija</h2>
-          <p className="mt-2 text-shadow-custom" style={{ color: 'var(--text-secondary)' }}>Pogledajte naš kombi u akciji.</p>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-shadow-custom" style={{ color: 'var(--text-primary)' }}>Galerija</h2>
+          <p className="mt-2 text-lg lg:text-xl text-shadow-custom" style={{ color: 'var(--text-secondary)' }}>Pogledajte naš kombi u akciji.</p>
         </div>
         <div className="mt-8">
           <InteractiveGallery />
@@ -146,12 +154,12 @@ export default function HomePage() {
       <section id="contact" className="container py-20 sm:py-28">
         <div className="grid md:grid-cols-2 gap-10 items-start">
           <div className="reveal">
-            <h2 className="text-3xl sm:text-4xl font-bold text-shadow-custom" style={{ color: 'var(--text-primary)' }}>Kontakt</h2>
-            <p className="mt-2 text-shadow-custom" style={{ color: 'var(--text-secondary)' }}>Pošaljite upit i javit ćemo se uskoro.</p>
-            <div className="mt-6 space-y-2" style={{ color: 'var(--text-secondary)' }}>
-              <p>Telefon: <a className="text-brand-primary hover:underline" href="tel:+385992087142">+385 99 208 7142</a></p>
-              <p>Email: <a className="text-brand-primary hover:underline" href="mailto:cesartransport.hr@gmail.com">cesartransport.hr@gmail.com</a></p>
-            </div>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-shadow-custom" style={{ color: 'var(--text-primary)' }}>Kontakt</h2>
+          <p className="mt-2 text-lg lg:text-xl text-shadow-custom" style={{ color: 'var(--text-secondary)' }}>Pošaljite upit i javit ćemo se uskoro.</p>
+          <div className="mt-6 space-y-2 text-lg lg:text-xl" style={{ color: 'var(--text-secondary)' }}>
+            <p>Telefon: <a className="text-brand-primary hover:underline" href="tel:+385992087142">+385 99 208 7142</a></p>
+            <p>Email: <a className="text-brand-primary hover:underline" href="mailto:cesartransport.hr@gmail.com">cesartransport.hr@gmail.com</a></p>
+          </div>
           </div>
 
           <form
@@ -219,7 +227,7 @@ export default function HomePage() {
       {/* FAQ */}
       <section id="faq" className="container py-20 sm:py-28">
         <div className="reveal">
-          <h2 className="text-3xl sm:text-4xl font-bold text-shadow-custom" style={{ color: 'var(--text-primary)' }}>Česta pitanja</h2>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-shadow-custom" style={{ color: 'var(--text-primary)' }}>Česta pitanja</h2>
         </div>
         <div className="mt-6 space-y-3">
           {[
@@ -231,11 +239,13 @@ export default function HomePage() {
             { q: 'Kako do ponude?', a: 'Ispunite formu ili nazovite – odgovaramo isti dan.' },
           ].map((item, idx) => (
             <details key={idx} className="reveal group rounded-xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 shadow-sm">
-              <summary className="cursor-pointer select-none text-lg font-medium list-none flex items-center justify-between" style={{ color: 'var(--text-primary)' }}>
+              <summary className="cursor-pointer select-none text-lg lg:text-xl font-medium list-none flex items-center justify-between" style={{ color: 'var(--text-primary)' }}>
                 {item.q}
-                <span className="ml-4 text-slate-400 dark:text-neutral-500 group-open:rotate-45 transition">+</span>
+                <span className="ml-4 text-slate-400 dark:text-neutral-500 group-open:rotate-45 transition-transform duration-300 ease-in-out">+</span>
               </summary>
-              <p className="mt-2" style={{ color: 'var(--text-secondary)' }}>{item.a}</p>
+              <div className="overflow-hidden transition-all duration-700 ease-in-out max-h-0 group-open:max-h-48">
+                <p className="pt-2 lg:text-lg opacity-0 transition-opacity duration-500 ease-in-out group-open:opacity-100" style={{ color: 'var(--text-secondary)' }}>{item.a}</p>
+              </div>
             </details>
           ))}
         </div>
