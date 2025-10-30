@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import BackgroundOrbs from './BackgroundOrbs';
 import './globals.css';
-import ThemeToggle from './ThemeToggle';
+import Header from './Header'; // Import the new header
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,21 +17,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="hr">
       <body className={`${inter.className} bg-white text-slate-900 antialiased dark:bg-neutral-950 dark:text-neutral-100`}>
-        {/* Top-right theme toggle */}
-        <div
-          className="fixed z-40"
-          style={{
-            right: 'calc(1rem + env(safe-area-inset-right))',
-            top: 'calc(1rem + env(safe-area-inset-top))',
-          }}
-        >
-          <ThemeToggle />
-        </div>
+        <Header /> {/* Add the new header */}
+        <BackgroundOrbs />
         <div className="relative z-10">{children}</div>
-        {/* Sticky decorative blue glow (center-right, behind content) */}
-        <div className="pointer-events-none fixed -right-20 top-1/2 -translate-y-1/2 opacity-20 blur-2xl z-0" aria-hidden="true">
-          <div className="h-72 w-72 sm:h-96 sm:w-96 rounded-full bg-brand-primary"></div>
-        </div>
         <div
           className="fixed z-50 flex flex-col items-end gap-3"
           style={{
